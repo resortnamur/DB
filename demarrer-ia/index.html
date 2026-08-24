@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Démarrer avec l'IA — CCRN</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --navy:        #0d1f3c;
+  --gold:        #c9a84c;
+  --gold-deep:   #9c7f2e;
+  --gold-pale:   #f5e9c8;
+  --white:       #ffffff;
+  --paper:       #f8f6f1;
+  --ink:         #16233a;
+  --ink-soft:    #4a5c78;
+  --rule:        rgba(13,31,60,0.10);
+  --card-br:     rgba(201,168,76,0.35);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+header {
+  background: var(--navy);
+  color: var(--white);
+  padding: 44px 48px 38px;
+}
+.hwrap { max-width: 940px; margin: 0 auto; display: flex; align-items: flex-end; justify-content: space-between; gap: 28px; flex-wrap: wrap; }
+.eyebrow {
+  font-size: 10px; font-weight: 600; letter-spacing: .2em;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 8px;
+}
+h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 40px; font-weight: 600; line-height: 1.05; letter-spacing: .01em;
+}
+.sub {
+  font-size: 11px; font-weight: 300; letter-spacing: .12em;
+  text-transform: uppercase; color: #8fa3bf; margin-top: 10px;
+}
+.hmeta { font-size: 11px; color: #8fa3bf; letter-spacing: .06em; text-align: right; }
+.hmeta strong { display: block; font-size: 13px; font-weight: 500; color: var(--gold-pale); }
+
+main { max-width: 940px; margin: 0 auto; padding: 52px 48px 80px; }
+.lede { font-size: 17px; line-height: 1.65; color: var(--ink-soft); max-width: 660px; }
+.lede strong { color: var(--ink); font-weight: 500; }
+
+section { margin-top: 56px; }
+.slabel {
+  font-size: 10px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--gold-deep); padding-bottom: 10px; border-bottom: 1px solid var(--rule); margin-bottom: 26px;
+}
+h2 { font-family: 'Cormorant Garamond', serif; font-size: 27px; font-weight: 600; margin-bottom: 14px; }
+p + p { margin-top: 12px; }
+
+.rules { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px,1fr)); gap: 18px; }
+.rule {
+  background: var(--white); border: 1px solid var(--rule);
+  border-top: 2px solid var(--gold); padding: 20px 22px 22px;
+}
+.rule .n {
+  font-family: 'Cormorant Garamond', serif; font-size: 26px; color: var(--gold-deep); line-height: 1;
+}
+.rule h3 { font-size: 14px; font-weight: 600; margin: 8px 0 7px; }
+.rule p { font-size: 13.5px; color: var(--ink-soft); line-height: 1.55; }
+
+.warn {
+  margin-top: 20px; background: #fdf8ec; border: 1px solid var(--card-br);
+  border-left: 3px solid var(--gold-deep); padding: 18px 22px; font-size: 14px; color: var(--ink);
+}
+.warn ul { margin: 9px 0 0 18px; color: var(--ink-soft); font-size: 13.5px; }
+.warn li { margin-bottom: 3px; }
+
+.task {
+  background: var(--white); border: 1px solid var(--rule);
+  padding: 24px 26px 26px; margin-bottom: 18px;
+}
+.task-head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 12px; }
+.task-num {
+  font-family: 'Cormorant Garamond', serif; font-size: 20px; color: var(--gold-deep);
+  min-width: 26px; line-height: 1.2;
+}
+.task h3 { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 600; line-height: 1.2; }
+.want { font-size: 14.5px; color: var(--ink-soft); margin-bottom: 14px; }
+.want b { color: var(--ink); font-weight: 500; }
+
+.prompt { position: relative; background: var(--navy); border-radius: 2px; padding: 18px 20px; }
+.prompt-label {
+  font-size: 9.5px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 9px; padding-right: 76px;
+}
+.prompt pre {
+  font-family: 'Inter', sans-serif; font-size: 13.5px; line-height: 1.6;
+  color: #e8eef7; white-space: pre-wrap; word-break: break-word;
+}
+.copy {
+  position: absolute; top: 14px; right: 14px; font-family: 'Inter', sans-serif;
+  font-size: 10px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--navy); background: var(--gold); border: 0; border-radius: 2px;
+  padding: 6px 11px; cursor: pointer; transition: background .15s;
+}
+.copy:hover { background: var(--gold-pale); }
+.copy.done { background: #cfe3cd; }
+
+.after { display: flex; gap: 28px; margin-top: 14px; flex-wrap: wrap; }
+.after div { flex: 1 1 220px; }
+.after .k {
+  font-size: 9.5px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--gold-deep); margin-bottom: 4px;
+}
+.after .v { font-size: 13.5px; color: var(--ink-soft); line-height: 1.5; }
+
+.deleg { background: var(--navy); color: var(--white); padding: 34px 36px 36px; }
+.deleg .slabel { color: var(--gold); border-bottom-color: rgba(201,168,76,0.25); }
+.deleg h2 { color: var(--white); }
+.deleg p { color: #c3d0e2; font-size: 15px; }
+.deleg ul { margin: 18px 0 0; list-style: none; }
+.deleg li {
+  border-left: 2px solid var(--gold); padding: 2px 0 2px 16px;
+  margin-bottom: 14px; font-size: 14.5px; color: #dbe4f0;
+}
+.deleg li b { color: var(--gold-pale); font-weight: 500; }
+
+.tools { background: var(--white); border: 1px solid var(--rule); border-top: 2px solid var(--gold); padding: 26px 28px; }
+.tools p { font-size: 14.5px; color: var(--ink-soft); }
+.tools p strong { color: var(--ink); font-weight: 600; }
+.tbl { width: 100%; border-collapse: collapse; margin-top: 18px; font-size: 13.5px; }
+.tbl th {
+  text-align: left; font-size: 9.5px; font-weight: 600; letter-spacing: .16em;
+  text-transform: uppercase; color: var(--gold-deep); padding: 0 12px 8px 0;
+  border-bottom: 1px solid var(--rule);
+}
+.tbl td { padding: 11px 12px 11px 0; border-bottom: 1px solid var(--rule); color: var(--ink-soft); vertical-align: top; }
+.tbl td:first-child { color: var(--ink); font-weight: 500; }
+
+footer {
+  max-width: 940px; margin: 0 auto; padding: 34px 48px 60px;
+  border-top: 1px solid var(--rule); font-size: 12px; color: var(--ink-soft);
+}
+footer strong { color: var(--ink); font-weight: 500; }
+
+@media (max-width: 620px) {
+  header { padding: 32px 22px 28px; } h1 { font-size: 30px; }
+  main { padding: 36px 22px 56px; } .hmeta { text-align: left; }
+  .deleg { padding: 26px 22px; } footer { padding: 28px 22px 44px; }
+}
+
+@media print {
+  body { background: #fff; }
+  header { background: #fff; color: var(--ink); border-bottom: 2px solid var(--gold); padding: 0 0 18px; }
+  h1, .deleg h2 { color: var(--ink); }
+  .sub, .hmeta { color: var(--ink-soft); }
+  main { padding: 18px 0 0; max-width: none; }
+  section { margin-top: 26px; }
+  .task, .rule, .tools { break-inside: avoid; border: 1px solid #ccc; }
+  .prompt { background: #f2f2f2; border: 1px solid #ccc; }
+  .prompt pre { color: #111; }
+  .prompt-label, .slabel, .after .k, .tbl th { color: #7a6320; }
+  .copy { display: none; }
+  .deleg { background: #fff; border: 1px solid #ccc; }
+  .deleg p, .deleg li, .deleg li b { color: var(--ink); }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hwrap">
+    <div>
+      <div class="eyebrow">Circus Casino Resort Namur</div>
+      <h1>Démarrer avec l'IA</h1>
+      <div class="sub">Guide pratique · Tous collaborateurs</div>
+    </div>
+    <div class="hmeta">
+      <strong>Version 1 — Août 2026</strong>
+      Une page. Dix tâches.<br />Aucune connaissance requise.
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <p class="lede">
+    Ce guide ne vous apprend pas comment fonctionne l'intelligence artificielle. Il vous montre
+    <strong>dix tâches que vous faites déjà</strong> et, pour chacune, la consigne exacte à copier pour
+    que la machine la fasse à votre place. Choisissez la tâche qui vous ennuie le plus, copiez,
+    collez, jugez le résultat. Ça prend trois minutes.
+  </p>
+
+  <section>
+    <div class="slabel">Avant de commencer</div>
+    <div class="rules">
+      <div class="rule">
+        <div class="n">1</div>
+        <h3>Aucune donnée de joueur, jamais</h3>
+        <p>Ces outils sont hébergés à l'extérieur de la maison. Tout ce qui identifie une personne
+        reste chez nous.</p>
+      </div>
+      <div class="rule">
+        <div class="n">2</div>
+        <h3>Elle se trompe avec aplomb</h3>
+        <p>L'IA écrit une bêtise du même ton assuré qu'une vérité. Elle rédige, elle ne valide pas.
+        C'est vous qui signez.</p>
+      </div>
+      <div class="rule">
+        <div class="n">3</div>
+        <h3>Deux minutes de consigne</h3>
+        <p>Dites qui vous êtes, à qui vous parlez, quelle longueur, quel ton. Deux minutes de
+        consigne économisent vingt minutes de correction.</p>
+      </div>
+    </div>
+
+    <div class="warn">
+      <strong>Ce qui ne se copie jamais dans un outil d'IA :</strong>
+      <ul>
+        <li>Nom, adresse, date de naissance ou pièce d'identité d'un client</li>
+        <li>Toute information liée aux exclusions de jeu ou au jeu responsable</li>
+        <li>Tout document lié aux obligations anti-blanchiment ou aux contrôles d'identité</li>
+        <li>Dossiers du personnel, salaires, évaluations, éléments médicaux ou disciplinaires</li>
+        <li>Contrats, codes d'accès, données bancaires</li>
+      </ul>
+      <p style="margin-top:10px;font-size:13.5px;color:var(--ink-soft)">
+        En cas de doute : anonymisez. « Monsieur D. » et « le client » fonctionnent tout aussi bien
+        que le vrai nom — l'outil n'a pas besoin de savoir de qui il s'agit pour rédiger.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <div class="slabel">Dix tâches, dix consignes prêtes à copier</div>
+
+    <div class="task">
+      <div class="task-head"><div class="task-num">01</div><h3>Écrire une note de service</h3></div>
+      <p class="want"><b>Vous voulez</b> diffuser une nouvelle règle à votre équipe, proprement, sans y passer l'après-midi.</p>
+      <div class="prompt">
+        <div class="prompt-label">À copier</div>
+        <button class="copy">Copier</button>
+        <pre>Tu es responsable dans un casino. Rédige une note de service interne annonçant la règle suivante : [DÉCRIVEZ LA RÈGLE EN UNE PHRASE].
+Public : [Room Managers / croupiers / accueil / techniciens].
+Ton : professionnel, direct, bienveillant. 250 mots maximum.
+Structure : pourquoi ce changement, ce qui change concrètement, à partir de quand, qui contacter en cas de question.
+N'invente aucun détail que je ne t'ai pas donné : si une information te manque, laisse [À COMPLÉTER].</pre>
+      </div>
+      <div class="after">
+        <div><div class="k">Ensuite</div><div class="v">Relisez les faits et les dates. Le style sera bon du premier coup ; l'exactitude reste la vôtre.</div></div>
+        <div><div class="k">Gain typique</div><div class="v">40 minutes → 5 minutes</div></div>
+      </div>
+    </div>
+
+    <div class="task">
+      <div class="task-head"><div class="task-num">02</div><h3>Faire le tri dans une pile de mails ou un rapport de nuit</h3></div>
+      <p class="want"><b>Vous voulez</b> savoir ce qui s'est passé sans lire quarante messages.</p>
+      <div class="prompt">
+        <div class="prompt-label">À copier, puis collez les textes à la suite</div>
+        <button class="copy">Copier</button>
+        <pre>Voici une série de messages et de rapports reçus depuis hier soir. Donne-moi :
+1. Les points qui exigent une décision de ma part aujourd'hui.
+2. Ce qui peut attendre cette semaine.
+3. Ce qui est purement informatif.
+Une ligne par point, pas de paraphrase, pas d'introduction. Si un point est ambigu, signale-le plutôt que de trancher.
+
+Voici les textes :</pre>
+      </div>
+      <div class="after">
+        <div><div class="k">Ensuite</div><div class="v">Anonymisez les noms de clients avant de coller. « Le client de la table 4 » suffit.</div></div>
+        <div><div class="k">Gain typique</div><div class="v">30 minutes → 3 minutes</div></div>
+      </div>
+    </div>
+
+    <div class="task">
+      <div class="task-head"><div class="task-num">03</div><h3>Répondre à un client mécontent</h3></div>
+      <p class="want"><b>Vous voulez</b> une réponse ferme mais courtoise, qui n'envenime rien et qui ne nous engage pas.</p>
+      <div class="prompt">
+        <div class="prompt-label">À copier</div>
+        <button class="copy">Copier</button>
+        <pre>Voici la plainte d'un client de notre casino : [COLLEZ LA PLAINTE, SANS SON NOM].
+Rédige-moi trois versions de réponse : une conciliante, une neutre, une ferme.
+Chacune en 150 mots maximum, vouvoiement, ton hôtelier haut de gamme.
+Règles : ne reconnais aucune faute, ne promets aucun geste commercial, ne cite aucun montant.
+Termine chaque version par une invitation à nous recontacter.</pre>
+      </div>
+      <div class="after">
+        <div><div class="k">Ensuite</div><div class="v">Choisissez la version, ajustez d'un mot ou deux. Un geste commercial reste une décision humaine.</div></div>
+        <div><div class="k">Gain typique</div><div class="v">25 minutes → 4 minutes</div></div>
+      </div>
+    </div>
+
+    <div class="task">
+      <div class="task-head"><div class="task-num">04</div><h3>Traduire en néerlandais ou en anglais</h3></div>
+      <p class="want"><b>Vous voulez</b> une traduction qui sonne juste, pas une traduction mot à mot.</p>
+      <div class="prompt">
+        <div class="prompt-label">À copier</div>
+        <button class="copy">Copier</button>
+        <pre>Traduis le texte ci-dessous en [néerlandais de Belgique / anglais].
+Contexte : communication d'un casino-resort à [ses clients / son personnel].
+Ne traduis pas littéralement : adapte les formules de politesse aux usages de la langue cible.
+Garde la mise en forme et les sauts de ligne. Laisse les noms propres inchangés.
+Après la traduction, signale en une ligne tout passage dont le sens t'a paru ambigu.
+
+Texte :</pre>
+      </div>
+      <div class="after">
+        <div><div class="k">Ensuite</div><div class="v">Faites relire par un néerlandophone la première fois, pour calibrer votre confiance.</div></div>
+        <div><div class="k">Gain typique</div><div class="v">Un aller-retour de traduction évité</div></div>
+      </div>
+    </div>
+
+    <div class="task">
+      <div class="task-head"><div class="task-num">05</div><h3>Préparer une réunion, puis son compte-rendu</h3></div>
+      <p class="want"><b>Vous voulez</b> un ordre du jour tenable, et un compte-rendu rédigé avant d'avoir quitté la salle.</p>
+      <div class="prompt">
+        <div class="prompt-label">À copier — avant la réunion</div>
+        <button class="copy">Copier</button>
+        <pre>Prépare l'ordre du jour d'une réunion de [DURÉE] avec [QUI].
+Sujets à traiter : [LISTE EN VRAC, PEU IMPORTE L'ORDRE].
+Classe-les du plus décisionnel au plus informatif, attribue une durée à chacun, et pour chaque point formule la question à laquelle nous devons répondre.
+Signale les sujets qui ne tiendront pas dans le temps imparti.</pre>
+      </div>
+      <div class="prompt" style="margin-top:12px">
+        <div class="prompt-label">À copier — après la réunion</div>
+        <button class="copy">Copier</button>
+        <pre>Voici mes notes de réunion, prises en vrac. Transforme-les en compte-rendu :
+1. Décisions prises.
+2. Actions, avec qui fait quoi et pour quand.
+3. Points restés ouverts.
+N'ajoute rien qui ne soit pas dans mes notes. Si le responsable ou l'échéance d'une action manque, écris [À PRÉCISER].
+
+Mes notes :</pre>
+      </div>
+      <div class="after">
+        <div><div class="k">Ensuite</div><div class="v">La consigne « n'ajoute rien » est la partie importante : sans elle, l'outil comble les trous.</div></div>
+        <div><div class="k">Gain typique</div><div class="v">1 heure → 10 minutes</div></div>
+      </div>
+    </div>
+
+    <div class="task">
+      <div class="task-head"><div class="task-num">06</div><h3>Récupérer un tableau coincé dans un PDF</h3></div>
+      <p class="want"><b>Vous voulez</b> dans Excel des chiffres qui sont prisonniers d'un PDF ou d'une photo.</p>
+      <div class="prompt">
+        <div class="prompt-label">À copier, en joignant le fichier</div>
+        <button class="copy">Copier</button>
+        <pre>Le fichier joint contient un tableau. Extrais-le et rends-le moi en tableau, colonnes identiques à l'original.
+Ne corrige pas les chiffres, même s'ils te semblent faux : recopie-les tels quels.
+Si une valeur est illisible, écris ILLISIBLE plutôt que de deviner.
+Ensuite, dis-moi en une ligne combien de lignes tu as extraites, que je puisse vérifier.</pre>
+      </div>
+      <div class="after">
+        <div><div class="k">Ensuite</div><div class="v">Vérifiez le nombre de lignes et faites un total de contrôle. C'est la seule étape non négociable.</div></div>
+        <div><div class="k">Gain typique</div><div class="v">Une heure de recopie évitée</div></div>
+      </div>
+    </div>
+
+    <div class="task">
+      <div class="task-head"><div class="task-num">07</div><h3>Raccourcir un texte, ou le réchauffer</h3></div>
+      <p class="want"><b>Vous voulez</b> que votre mail de deux pages en fasse une, ou qu'il cesse de sonner comme un rappel à l'ordre.</p>
+      <div class="prompt">
+        <div class="prompt-label">À copier</div>
+        <button class="copy">Copier</button>
+        <pre>Réécris le texte ci-dessous en [LONGUEUR CIBLE] mots.
+Objectif : [le raccourcir sans rien perdre / le rendre plus chaleureux / le rendre plus ferme / le rendre lisible par quelqu'un qui n'est pas du métier].
+Conserve tous les faits, les chiffres et les dates. Ne supprime aucune information, seulement des mots.
+Donne-moi ensuite, en deux lignes, ce que tu as choisi de sacrifier.
+
+Texte :</pre>
+      </div>
+      <div class="after">
+        <div><div class="k">Ensuite</div><div class="v">Demander « ce que tu as sacrifié » vous évite de découvrir la coupe gênante après l'envoi.</div></div>
+        <div><div class="k">Gain typique</div><div class="v">20 minutes → 2 minutes</div></div>
+      </div>
+    </div>
+
+    <div class="task">
+      <div class="task-head"><div class="task-num">08</div><h3>Comparer deux devis ou deux documents</h3></div>
+      <p class="want"><b>Vous voulez</b> savoir où sont les vraies différences, sans lire deux fois la même chose.</p>
+      <div class="prompt">
+        <div class="prompt-label">À copier, en joignant les deux fichiers</div>
+        <button class="copy">Copier</button>
+        <pre>Compare les deux documents joints. Rends-moi un tableau à trois colonnes : critère, document A, document B.
+Ne retiens que les points où ils diffèrent réellement — ignore les différences de formulation.
+Sous le tableau, liste ce qui figure dans l'un et pas du tout dans l'autre : c'est souvent là que se cache l'essentiel.
+Ne me recommande rien, je déciderai.</pre>
+      </div>
+      <div class="after">
+        <div><div class="k">Ensuite</div><div class="v">« Ne me recommande rien » évite un avis péremptoire fondé sur un critère qui n'est pas le vôtre.</div></div>
+        <div><div class="k">Gain typique</div><div class="v">45 minutes → 5 minutes</div></div>
+      </div>
+    </div>
+
+    <div class="task">
+      <div class="task-head"><div class="task-num">09</div><h3>Retrouver une information dans un document de 80 pages</h3></div>
+      <p class="want"><b>Vous voulez</b> une réponse à une question précise dans une procédure, un règlement ou une convention.</p>
+      <div class="prompt">
+        <div class="prompt-label">À copier, en joignant le document</div>
+        <button class="copy">Copier</button>
+        <pre>Réponds à cette question en te fondant uniquement sur le document joint : [VOTRE QUESTION].
+Pour chaque affirmation, cite le passage exact et sa page.
+Si le document ne répond pas à la question, dis-le clairement au lieu de combler avec tes connaissances générales.
+Distingue bien ce que le document dit de ce qu'il laisse à l'interprétation.</pre>
+      </div>
+      <div class="after">
+        <div><div class="k">Ensuite</div><div class="v">Exiger la citation et la page est ce qui transforme une réponse plausible en réponse vérifiable.</div></div>
+        <div><div class="k">Gain typique</div><div class="v">Une recherche de 30 minutes → 1 minute</div></div>
+      </div>
+    </div>
+
+    <div class="task">
+      <div class="task-head"><div class="task-num">10</div><h3>Construire un support de présentation</h3></div>
+      <p class="want"><b>Vous voulez</b> passer d'une idée à une trame de diapositives présentable.</p>
+      <div class="prompt">
+        <div class="prompt-label">À copier</div>
+        <button class="copy">Copier</button>
+        <pre>Construis la trame d'une présentation de [NOMBRE] diapositives sur [SUJET].
+Public : [QUI], durée de passage : [X] minutes.
+Pour chaque diapositive : un titre court, trois puces maximum, et en dessous ce que je dois dire à l'oral.
+Une seule idée par diapositive. Pas de texte que je devrais lire à voix haute.
+Termine par la diapositive de conclusion la plus forte que tu peux tirer de ce contenu.</pre>
+      </div>
+      <div class="after">
+        <div><div class="k">Ensuite</div><div class="v">Récupérez la trame dans PowerPoint. Le contenu est le travail long ; la mise en forme, non.</div></div>
+        <div><div class="k">Gain typique</div><div class="v">2 heures → 20 minutes</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="deleg">
+    <div class="slabel">Ce qui a changé cette année</div>
+    <h2>On ne discute plus, on délègue</h2>
+    <p>
+      Jusqu'ici, ces outils étaient des interlocuteurs : vous posiez une question, ils répondaient,
+      vous recopiiez la réponse. Depuis quelques mois, ils savent aussi <b>travailler directement sur
+      vos fichiers</b>. La différence est considérable, et c'est celle que la plupart des gens n'ont pas
+      encore vue.
+    </p>
+    <ul>
+      <li><b>Vous déposez un dossier en désordre</b> et vous dites « range ça par thème ». Les fichiers sont classés, pas décrits.</li>
+      <li><b>Vous déposez douze factures</b> et vous dites « fais-m'en un tableau Excel avec les totaux par fournisseur ». Vous récupérez le fichier, pas un texte à recopier.</li>
+      <li><b>Vous déposez un rapport de trente pages</b> et vous dites « fais-en une note de deux pages pour le Comité de Pilotage ». Vous récupérez le document.</li>
+    </ul>
+    <p style="margin-top:20px">
+      Retenez la formule : on ne demande plus « comment je fais pour… », on dit
+      <b>« voici mes fichiers, voici le résultat que je veux »</b>. Et on vérifie le résultat, toujours.
+    </p>
+  </section>
+
+  <section>
+    <div class="slabel">Et concrètement, quel outil ?</div>
+    <div class="tools">
+      <p>
+        <strong>Tout ce qui figure dans ce guide fonctionne aussi bien dans ChatGPT que dans Claude.</strong>
+        La question de l'outil est secondaire : prenez celui auquel vous avez déjà accès, et n'en changez
+        pas pour changer. Ce qui fait la différence de résultat, c'est la qualité de votre consigne, pas
+        la marque.
+      </p>
+      <table class="tbl">
+        <tr><th>Si vous avez</th><th>Vous pouvez faire</th></tr>
+        <tr><td>ChatGPT</td><td>Les dix tâches ci-dessus, y compris avec des fichiers joints.</td></tr>
+        <tr><td>Claude</td><td>Idem, avec en plus la production de documents finis (Word, Excel, PowerPoint) et le travail sur des dossiers entiers.</td></tr>
+        <tr><td>Copilot dans Office</td><td>Les tâches 1, 5, 7 et 10 directement dans Word, Outlook et PowerPoint, sur vos fichiers maison.</td></tr>
+        <tr><td>Rien pour l'instant</td><td>Les versions gratuites de ChatGPT et de Claude suffisent pour tester ce guide. Parlez-en à votre responsable si l'usage devient régulier.</td></tr>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p>
+    <strong>Circus Casino Resort Namur</strong> — Guide « Démarrer avec l'IA », version 1, août 2026.
+    Document interne, à usage des collaborateurs.
+  </p>
+  <p style="margin-top:8px">
+    Une formation IA complète, outil par outil, existe par ailleurs pour qui souhaite aller plus loin.
+    Ce guide-ci n'en est que la porte d'entrée. Remarques et cas d'usage à ajouter : bienvenus.
+  </p>
+</footer>
+
+<script>
+document.querySelectorAll('.copy').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    var txt = btn.parentElement.querySelector('pre').innerText;
+    navigator.clipboard.writeText(txt).then(function () {
+      btn.textContent = 'Copié';
+      btn.classList.add('done');
+      setTimeout(function () { btn.textContent = 'Copier'; btn.classList.remove('done'); }, 1800);
+    });
+  });
+});
+</script>
+
+</body>
+</html>
