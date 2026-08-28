@@ -290,6 +290,20 @@
       font-weight: 400;
     }
 
+    .group-link-text {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      min-width: 0;
+    }
+
+    .group-link-sub {
+      font-size: 11px;
+      font-weight: 300;
+      color: var(--text-dim);
+      line-height: 1.4;
+    }
+
     .group-link-tag {
       font-size: 10px;
       font-weight: 500;
@@ -298,6 +312,46 @@
       color: var(--gold);
       opacity: .8;
     }
+
+    /* ── TABS ───────────────────────────────────────────── */
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      border-bottom: 1px solid var(--card-border);
+      margin-bottom: 40px;
+    }
+
+    .tab {
+      appearance: none;
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      padding: 12px 20px;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      cursor: pointer;
+      transition: color 150ms ease, border-color 150ms ease;
+    }
+
+    .tab:hover { color: var(--gold-light); }
+
+    .tab[aria-selected="true"] {
+      color: var(--gold);
+      border-bottom-color: var(--gold);
+    }
+
+    .tab:focus-visible {
+      outline: 1px solid var(--gold);
+      outline-offset: 2px;
+    }
+
+    .panel[hidden] { display: none; }
 
     /* ── FOOTER ─────────────────────────────────────────── */
     footer {
@@ -329,6 +383,7 @@
       main { padding: 40px 24px 60px; }
       footer { padding: 20px 24px; flex-direction: column; gap: 8px; align-items: flex-start; }
       .grid { grid-template-columns: 1fr; }
+      .tab { padding: 12px 12px; letter-spacing: .12em; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -351,154 +406,354 @@
   </header>
 
   <main>
-    <p class="section-label">Outils disponibles</p>
+    <nav class="tabs" role="tablist" aria-label="Sections du portail">
+      <button class="tab" type="button" role="tab" id="tab-ccrn" aria-controls="panel-ccrn" aria-selected="true">Outils CCRN</button>
+      <button class="tab" type="button" role="tab" id="tab-apps" aria-controls="panel-apps" aria-selected="false" tabindex="-1">Applications métier</button>
+    </nav>
 
-    <div class="grid">
+    <section class="panel" id="panel-ccrn" role="tabpanel" aria-labelledby="tab-ccrn" tabindex="0">
+      <p class="section-label">Outils disponibles</p>
 
-      <!-- Infos CCRN — documents du personnel -->
-      <a class="card" href="https://infos.ccrn.workers.dev/" target="_blank" rel="noopener">
-        <div class="card-icon">
-          <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/><path d="M9 7h7M9 11h7"/></svg>
-        </div>
-        <div class="card-title">Infos CCRN</div>
-        <div class="card-desc">Règlement de travail, ROI et politique de réintégration : recherche instantanée et assistant qui répond en citant l'article. Accès par code, à communiquer au personnel.</div>
-        <div class="card-arrow">
-          Ouvrir
-          <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </div>
-      </a>
+      <div class="grid">
 
-      <!-- Suivi des tâches -->
-      <a class="card" href="https://resortnamur.github.io/suivi" target="_blank" rel="noopener">
-        <div class="card-icon">
-          <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
-        </div>
-        <div class="card-title">Suivi des tâches</div>
-        <div class="card-desc">Gestion et suivi des tâches en cours au niveau de la direction générale.</div>
-        <div class="card-arrow">
-          Ouvrir
-          <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </div>
-      </a>
-
-      <!-- Reporting financier -->
-      <a class="card" href="https://resortnamur.github.io/reporting" target="_blank" rel="noopener">
-        <div class="card-icon">
-          <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-        </div>
-        <div class="card-title">Reporting financier</div>
-        <div class="card-desc">Tableaux de bord et indicateurs financiers du Resort.</div>
-        <div class="card-arrow">
-          Ouvrir
-          <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </div>
-      </a>
-
-      <!-- Alfred — clôture Bar & Bistro -->
-      <a class="card" href="https://alfred.preview.keiro.cloud/" target="_blank" rel="noopener">
-        <div class="card-icon">
-          <svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
-        </div>
-        <div class="card-title">Alfred — Clôture Bar &amp; Bistro</div>
-        <div class="card-desc">Clôture journalière du Bar et du Bistro à partir des exports Lightspeed : ventilation par catégorie et taux de TVA, offerts, écarts de caisse et rapports pour la comptabilité. Version bêta, accès nominatif sur demande.</div>
-        <div class="card-arrow">
-          Ouvrir
-          <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </div>
-      </a>
-
-      <!-- Outils de prévention — groupe -->
-      <div class="card-group">
-        <div class="group-header">
-          <div class="card-icon" style="flex-shrink:0">
-            <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <!-- Infos CCRN — documents du personnel -->
+        <a class="card" href="https://infos.ccrn.workers.dev/" target="_blank" rel="noopener">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/><path d="M9 7h7M9 11h7"/></svg>
           </div>
-          <div>
-            <div class="group-title">Outils de prévention</div>
+          <div class="card-title">Infos CCRN</div>
+          <div class="card-desc">Règlement de travail, ROI et politique de réintégration : recherche instantanée et assistant qui répond en citant l'article. Accès par code, à communiquer au personnel.</div>
+          <div class="card-arrow">
+            Ouvrir
+            <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </div>
+        </a>
+
+        <!-- Suivi des tâches -->
+        <a class="card" href="https://resortnamur.github.io/suivi" target="_blank" rel="noopener">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+          </div>
+          <div class="card-title">Suivi des tâches</div>
+          <div class="card-desc">Gestion et suivi des tâches en cours au niveau de la direction générale.</div>
+          <div class="card-arrow">
+            Ouvrir
+            <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </div>
+        </a>
+
+        <!-- Reporting financier -->
+        <a class="card" href="https://resortnamur.github.io/reporting" target="_blank" rel="noopener">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <div class="card-title">Reporting financier</div>
+          <div class="card-desc">Tableaux de bord et indicateurs financiers du Resort.</div>
+          <div class="card-arrow">
+            Ouvrir
+            <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </div>
+        </a>
+
+        <!-- Alfred — clôture Bar & Bistro -->
+        <a class="card" href="https://alfred.preview.keiro.cloud/" target="_blank" rel="noopener">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+          </div>
+          <div class="card-title">Alfred — Clôture Bar &amp; Bistro</div>
+          <div class="card-desc">Clôture journalière du Bar et du Bistro à partir des exports Lightspeed : ventilation par catégorie et taux de TVA, offerts, écarts de caisse et rapports pour la comptabilité. Version bêta, accès nominatif sur demande.</div>
+          <div class="card-arrow">
+            Ouvrir
+            <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </div>
+        </a>
+
+        <!-- Outils de prévention — groupe -->
+        <div class="card-group">
+          <div class="group-header">
+            <div class="card-icon" style="flex-shrink:0">
+              <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <div>
+              <div class="group-title">Outils de prévention</div>
+            </div>
+          </div>
+          <div class="group-desc">Modules de formation réglementaire à destination des équipes.</div>
+          <div class="group-items">
+            <a class="group-link" href="https://resortnamur.github.io/formation-prevention" target="_blank" rel="noopener">
+              <span class="group-link-label">Formation Prévention</span>
+              <span class="group-link-tag">Ouvrir ↗</span>
+            </a>
+            <a class="group-link" href="https://resortnamur.github.io/formation-BA4" target="_blank" rel="noopener">
+              <span class="group-link-label">Formation électricité</span>
+              <span class="group-link-tag">Ouvrir ↗</span>
+            </a>
           </div>
         </div>
-        <div class="group-desc">Modules de formation réglementaire à destination des équipes.</div>
-        <div class="group-items">
-          <a class="group-link" href="https://resortnamur.github.io/formation-prevention" target="_blank" rel="noopener">
-            <span class="group-link-label">Formation Prévention</span>
-            <span class="group-link-tag">Ouvrir ↗</span>
-          </a>
-          <a class="group-link" href="https://resortnamur.github.io/formation-BA4" target="_blank" rel="noopener">
-            <span class="group-link-label">Formation électricité</span>
-            <span class="group-link-tag">Ouvrir ↗</span>
-          </a>
-        </div>
-      </div>
 
-      <!-- Formation IA -->
-      <a class="card" href="https://resortnamur.github.io/formation-IA" target="_blank" rel="noopener">
-        <div class="card-icon">
-          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg>
-        </div>
-        <div class="card-title">Formation IA</div>
-        <div class="card-desc">34 leçons sur l'IA appliquée : ChatGPT, Claude, Copilot, Gemini, agents, cadre légal et consignes prêtes à l'emploi. Mise à jour août 2026.</div>
-        <div class="card-arrow">
-          Ouvrir
-          <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </div>
-      </a>
-
-      <!-- Galerie d'images -->
-      <a class="card" href="https://resortnamur.github.io/galerie" target="_blank" rel="noopener">
-        <div class="card-icon">
-          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-        </div>
-        <div class="card-title">Galerie d'images</div>
-        <div class="card-desc">Bibliothèque d'images, classées par catégorie.</div>
-        <div class="card-arrow">
-          Ouvrir
-          <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </div>
-      </a>
-
-      <!-- Ordre du jour connecté -->
-      <a class="card" href="https://cryptpad.fr/sheet/#/2/sheet/edit/z0QLjI-uVvTfr4uV12GaByj5/" target="_blank" rel="noopener">
-        <div class="card-icon">
-          <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></svg>
-        </div>
-        <div class="card-title">Ordre du jour connecté</div>
-        <div class="card-desc">Ordre du jour partagé et collaboratif en temps réel.</div>
-        <div class="card-arrow">
-          Ouvrir
-          <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </div>
-      </a>
-
-      <!-- Outils IA — groupe -->
-      <div class="card-group">
-        <div class="group-header">
-          <div class="card-icon" style="flex-shrink:0">
+        <!-- Formation IA -->
+        <a class="card" href="https://resortnamur.github.io/formation-IA" target="_blank" rel="noopener">
+          <div class="card-icon">
             <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg>
           </div>
-          <div>
-            <div class="group-title">Outils IA</div>
+          <div class="card-title">Formation IA</div>
+          <div class="card-desc">34 leçons sur l'IA appliquée : ChatGPT, Claude, Copilot, Gemini, agents, cadre légal et consignes prêtes à l'emploi. Mise à jour août 2026.</div>
+          <div class="card-arrow">
+            Ouvrir
+            <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </div>
+        </a>
+
+        <!-- Galerie d'images -->
+        <a class="card" href="https://resortnamur.github.io/galerie" target="_blank" rel="noopener">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          </div>
+          <div class="card-title">Galerie d'images</div>
+          <div class="card-desc">Bibliothèque d'images, classées par catégorie.</div>
+          <div class="card-arrow">
+            Ouvrir
+            <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </div>
+        </a>
+
+        <!-- Ordre du jour connecté -->
+        <a class="card" href="https://cryptpad.fr/sheet/#/2/sheet/edit/z0QLjI-uVvTfr4uV12GaByj5/" target="_blank" rel="noopener">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></svg>
+          </div>
+          <div class="card-title">Ordre du jour connecté</div>
+          <div class="card-desc">Ordre du jour partagé et collaboratif en temps réel.</div>
+          <div class="card-arrow">
+            Ouvrir
+            <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </div>
+        </a>
+
+        <!-- Outils IA — groupe -->
+        <div class="card-group">
+          <div class="group-header">
+            <div class="card-icon" style="flex-shrink:0">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg>
+            </div>
+            <div>
+              <div class="group-title">Outils IA</div>
+            </div>
+          </div>
+          <div class="group-desc">Applications d'intelligence artificielle développées pour le Resort.</div>
+          <div class="group-items">
+            <a class="group-link" href="https://resortnamur.github.io/salles" target="_blank" rel="noopener">
+              <span class="group-link-label">Plans des salles</span>
+              <span class="group-link-tag">Ouvrir ↗</span>
+            </a>
+            <a class="group-link" href="https://resortnamur.github.io/etiquettes" target="_blank" rel="noopener">
+              <span class="group-link-label">Génération d'étiquettes restaurant</span>
+              <span class="group-link-tag">Ouvrir ↗</span>
+            </a>
           </div>
         </div>
-        <div class="group-desc">Applications d'intelligence artificielle développées pour le Resort.</div>
-        <div class="group-items">
-          <a class="group-link" href="https://resortnamur.github.io/salles" target="_blank" rel="noopener">
-            <span class="group-link-label">Plans des salles</span>
-            <span class="group-link-tag">Ouvrir ↗</span>
-          </a>
-          <a class="group-link" href="https://resortnamur.github.io/etiquettes" target="_blank" rel="noopener">
-            <span class="group-link-label">Génération d'étiquettes restaurant</span>
-            <span class="group-link-tag">Ouvrir ↗</span>
-          </a>
-        </div>
-      </div>
 
-    </div>
+      </div>
+    </section>
+
+    <section class="panel" id="panel-apps" role="tabpanel" aria-labelledby="tab-apps" tabindex="0" hidden>
+      <p class="section-label">Applications métier — accès quotidien</p>
+
+      <div class="grid">
+
+        <div class="card-group">
+          <div class="group-header">
+            <div class="card-icon" style="flex-shrink:0">
+              <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+            </div>
+            <div>
+              <div class="group-title">Écrans &amp; ambiance</div>
+            </div>
+          </div>
+          <div class="group-desc">Pilotage des écrans du Resort et diffusion musicale.</div>
+          <div class="group-items">
+          <a class="group-link" href="https://admin.ledpilot.eu/dashboard" target="_blank" rel="noopener">
+            <span class="group-link-text">
+              <span class="group-link-label">LedPilot</span>
+              <span class="group-link-sub">Gestion des écrans</span>
+            </span>
+            <span class="group-link-tag">Ouvrir ↗</span>
+          </a>
+          <a class="group-link" href="https://secure.logmein.com/central/Central.aspx" target="_blank" rel="noopener">
+            <span class="group-link-text">
+              <span class="group-link-label">LogMeIn Central</span>
+              <span class="group-link-sub">Contrôle à distance des écrans</span>
+            </span>
+            <span class="group-link-tag">Ouvrir ↗</span>
+          </a>
+          <a class="group-link" href="https://play.deepidoo.com/" target="_blank" rel="noopener">
+            <span class="group-link-text">
+              <span class="group-link-label">Deepidoo</span>
+              <span class="group-link-sub">Musique d’ambiance</span>
+            </span>
+            <span class="group-link-tag">Ouvrir ↗</span>
+          </a>
+          </div>
+        </div>
+
+        <div class="card-group">
+          <div class="group-header">
+            <div class="card-icon" style="flex-shrink:0">
+              <svg viewBox="0 0 24 24"><path d="M3 2v7a3 3 0 003 3 3 3 0 003-3V2"/><path d="M6 12v10"/><path d="M18 2c-1.7 1.5-2.5 3.6-2.5 6 0 1.7.8 3 2.5 3.4V22"/></svg>
+            </div>
+            <div>
+              <div class="group-title">Restauration &amp; Hôtel</div>
+            </div>
+          </div>
+          <div class="group-desc">Caisses, réservations et gestion hôtelière.</div>
+          <div class="group-items">
+          <a class="group-link" href="https://euc1-web.posios.com/management/" target="_blank" rel="noopener">
+            <span class="group-link-text">
+              <span class="group-link-label">Lightspeed</span>
+              <span class="group-link-sub">Caisse — bars et restaurants</span>
+            </span>
+            <span class="group-link-tag">Ouvrir ↗</span>
+          </a>
+          <a class="group-link" href="https://app.zenchef.com/zw#/tables/manage/today/76281" target="_blank" rel="noopener">
+            <span class="group-link-text">
+              <span class="group-link-label">Zenchef</span>
+              <span class="group-link-sub">Réservations restaurant</span>
+            </span>
+            <span class="group-link-tag">Ouvrir ↗</span>
+          </a>
+          <a class="group-link" href="https://app.mews.com/Commander/13993f4b-377a-4deb-88f6-af320091207e/Dashboard/Index" target="_blank" rel="noopener">
+            <span class="group-link-text">
+              <span class="group-link-label">Mews</span>
+              <span class="group-link-sub">Gestion hôtelière</span>
+            </span>
+            <span class="group-link-tag">Ouvrir ↗</span>
+          </a>
+          <a class="group-link" href="https://app.secure-booker.com/App/Admin/Login.aspx" target="_blank" rel="noopener">
+            <span class="group-link-text">
+              <span class="group-link-label">Booker</span>
+              <span class="group-link-sub">Réservations Wellness</span>
+            </span>
+            <span class="group-link-tag">Ouvrir ↗</span>
+          </a>
+          </div>
+        </div>
+
+        <div class="card-group">
+          <div class="group-header">
+            <div class="card-icon" style="flex-shrink:0">
+              <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><circle cx="12" cy="12" r="3"/><path d="M6 12h.01M18 12h.01"/></svg>
+            </div>
+            <div>
+              <div class="group-title">Finance &amp; achats</div>
+            </div>
+          </div>
+          <div class="group-desc">Comptabilité, factures fournisseurs et achats.</div>
+          <div class="group-items">
+          <a class="group-link" href="https://g1-pro.operations.dynamics.com/" target="_blank" rel="noopener">
+            <span class="group-link-text">
+              <span class="group-link-label">Dynamics 365</span>
+              <span class="group-link-sub">ERP — comptabilité</span>
+            </span>
+            <span class="group-link-tag">Ouvrir ↗</span>
+          </a>
+          <a class="group-link" href="https://g1pro.exflow.cloud/Inbox" target="_blank" rel="noopener">
+            <span class="group-link-text">
+              <span class="group-link-label">ExFlow</span>
+              <span class="group-link-sub">Traitement des factures</span>
+            </span>
+            <span class="group-link-tag">Ouvrir ↗</span>
+          </a>
+          <a class="group-link" href="https://www.amazon.fr/" target="_blank" rel="noopener">
+            <span class="group-link-text">
+              <span class="group-link-label">Amazon Business</span>
+              <span class="group-link-sub">Achats et fournitures</span>
+            </span>
+            <span class="group-link-tag">Ouvrir ↗</span>
+          </a>
+          <a class="group-link" href="https://app.navan.com/app/liquid/user/home" target="_blank" rel="noopener">
+            <span class="group-link-text">
+              <span class="group-link-label">Navan</span>
+              <span class="group-link-sub">Voyages et notes de frais</span>
+            </span>
+            <span class="group-link-tag">Ouvrir ↗</span>
+          </a>
+          </div>
+        </div>
+
+        <div class="card-group">
+          <div class="group-header">
+            <div class="card-icon" style="flex-shrink:0">
+              <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+            </div>
+            <div>
+              <div class="group-title">Groupe &amp; bureautique</div>
+            </div>
+          </div>
+          <div class="group-desc">Outils communs au groupe Circus.</div>
+          <div class="group-items">
+          <a class="group-link" href="https://outlook.office.com/mail/" target="_blank" rel="noopener">
+            <span class="group-link-text">
+              <span class="group-link-label">Outlook</span>
+              <span class="group-link-sub">Messagerie et agenda</span>
+            </span>
+            <span class="group-link-tag">Ouvrir ↗</span>
+          </a>
+          <a class="group-link" href="https://identity.wd502.myworkday.com/wday/authgwy/hq1sa/upc/login" target="_blank" rel="noopener">
+            <span class="group-link-text">
+              <span class="group-link-label">Workday</span>
+              <span class="group-link-sub">Ressources humaines</span>
+            </span>
+            <span class="group-link-tag">Ouvrir ↗</span>
+          </a>
+          <a class="group-link" href="https://circus.frontify.com/document/751" target="_blank" rel="noopener">
+            <span class="group-link-text">
+              <span class="group-link-label">Circus Portal</span>
+              <span class="group-link-sub">Documents et supports du groupe</span>
+            </span>
+            <span class="group-link-tag">Ouvrir ↗</span>
+          </a>
+          </div>
+        </div>
+
+      </div>
+    </section>
   </main>
 
   <footer>
     <span class="footer-copy">Usage strictement interne — CCRN &copy; 2026</span>
     <span class="footer-logo">CCRN</span>
   </footer>
+
+
+  <script>
+    (function () {
+      var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab'));
+
+      function activate(tab, focus) {
+        tabs.forEach(function (t) {
+          var selected = t === tab;
+          t.setAttribute('aria-selected', selected ? 'true' : 'false');
+          t.tabIndex = selected ? 0 : -1;
+          document.getElementById(t.getAttribute('aria-controls')).hidden = !selected;
+        });
+        if (focus) tab.focus();
+        try { history.replaceState(null, '', '#' + tab.id.replace('tab-', '')); } catch (err) {}
+      }
+
+      tabs.forEach(function (tab, i) {
+        tab.addEventListener('click', function () { activate(tab, false); });
+        tab.addEventListener('keydown', function (e) {
+          var delta = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+          if (!delta) return;
+          e.preventDefault();
+          activate(tabs[(i + delta + tabs.length) % tabs.length], true);
+        });
+      });
+
+      var wanted = document.getElementById('tab-' + location.hash.replace('#', ''));
+      if (wanted && tabs.indexOf(wanted) !== -1) activate(wanted, false);
+    })();
+  </script>
 
 </body>
 </html>
