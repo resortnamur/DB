@@ -130,6 +130,11 @@
     }
     .exemple b { color: var(--white); font-weight: 600; }
 
+    .departements {
+      font-size: 12px; letter-spacing: .04em; color: var(--text-dim);
+      line-height: 2; max-width: 70ch;
+    }
+
     .fichiers { display: flex; flex-wrap: wrap; gap: 12px; }
     .fichier {
       display: inline-flex; align-items: center; gap: 10px;
@@ -209,7 +214,7 @@
     <div class="encart">
       <div class="encart-tete">
         <div class="encart-titre">Consignes pour l'IA
-          <span>273 lignes — rien à trier, tout se copie d'un bloc</span>
+          <span>276 lignes — rien à trier, tout se copie d'un bloc</span>
         </div>
         <button class="copier" id="copier" type="button">Copier le texte</button>
       </div>
@@ -374,15 +379,17 @@ sont : « un débutant bloquerait ici ».
 Commence par me donner, sur une ligne seule et avant le document lui-même, le
 nom sous lequel je dois enregistrer le fichier :
 
-  Nom du fichier : procedure-CCRN-JEUX-comptage-caisse-fin-de-service-2026-09
+  Nom du fichier : procedure-CCRN-CAISSE-comptage-caisse-fin-de-service-2026-09
 
 Comment tu le construis, dans cet ordre et séparé par des tirets :
   1. « procedure-CCRN- », qui ne change jamais ;
   2. le département, en MAJUSCULES, choisi dans cette liste et nulle part
-     ailleurs : JEUX, POKER, MACHINES, HOTEL, RESTAURATION, BAR, CUISINE,
-     ACCUEIL, HOUSEKEEPING, TECHNIQUE, SECURITE, MARKETING, FINANCE, RH,
-     ADMIN, DIRECTION. Déduis-le de mon service ; si aucun ne convient
-     vraiment, demande-moi lequel choisir — n'en invente pas ;
+     ailleurs : CROUPIERS, ROOM_MANAGERS, CAISSE, POKER, SLOTS, HOUSEKEEPING,
+     RESTAURANT, BAR, RECEPTION_HOTEL, RECEPTION_CASINO, HOTEL_AUTRES,
+     MAINTENANCE, SECURITE, MARKETING, COMPTA, RH, DIRECTION, WELLNESS,
+     SALLES, AUTRE. Déduis-le de mon service ; si aucun ne convient, demande-moi
+     lequel choisir, et prends AUTRE si je ne sais pas trancher. N'en invente
+     jamais un ;
   3. le nom de la tâche, en minuscules, cinq mots au maximum, sans article
      inutile (« comptage-caisse-fin-de-service », pas
      « le-comptage-de-la-caisse-a-la-fin-du-service ») ;
@@ -390,8 +397,9 @@ Comment tu le construis, dans cet ordre et séparé par des tirets :
      la date du jour, demande-la-moi.
 
 Aucun accent, aucun espace, aucune ponctuation : seulement des lettres non
-accentuées, des chiffres et des tirets. Ne mets pas d'extension — elle
-s'ajoutera à l'enregistrement.
+accentuées, des chiffres, des tirets, et le tiret bas des noms de département
+qui s'écrivent en deux mots. Ne mets pas d'extension — elle s'ajoutera à
+l'enregistrement.
 
 Puis écris la procédure complète en un seul message, avec exactement ces
 sections dans cet ordre :
@@ -490,11 +498,13 @@ Commence maintenant : une phrase pour te présenter, puis ta première question.
 
     <h2>Le nom du fichier</h2>
     <p>Il est imposé, et l'IA vous le donne juste avant la procédure :</p>
-    <p class="exemple">procedure-CCRN-<b>JEUX</b>-comptage-caisse-fin-de-service-<b>2026-09</b></p>
-    <p>Le département vient d'une liste fermée — JEUX, POKER, MACHINES, HOTEL,
-    RESTAURATION, BAR, CUISINE, ACCUEIL, HOUSEKEEPING, TECHNIQUE, SECURITE, MARKETING,
-    FINANCE, RH, ADMIN, DIRECTION — suivi du nom de la tâche et du mois de rédaction.
-    L'extension s'ajoute à l'enregistrement.</p>
+    <p class="exemple">procedure-CCRN-<b>CAISSE</b>-comptage-caisse-fin-de-service-<b>2026-09</b></p>
+    <p>Le département vient d'une liste fermée, suivi du nom de la tâche et du mois de
+    rédaction. L'extension s'ajoute à l'enregistrement.</p>
+    <p class="departements">CROUPIERS · ROOM_MANAGERS · CAISSE · POKER · SLOTS ·
+    HOUSEKEEPING · RESTAURANT · BAR · RECEPTION_HOTEL · RECEPTION_CASINO ·
+    HOTEL_AUTRES · MAINTENANCE · SECURITE · MARKETING · COMPTA · RH · DIRECTION ·
+    WELLNESS · SALLES · AUTRE</p>
 
     <h2>Ce que l'IA va vous demander</h2>
     <p>Votre fonction et la tâche à décrire ; ce qui déclenche cette tâche, à quelle
