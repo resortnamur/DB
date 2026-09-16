@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CCRN — Décrire une procédure avec l'aide d'une IA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:        #0d1f3c;
+      --navy-mid:    #152d57;
+      --gold:        #c9a84c;
+      --gold-light:  #e4c97a;
+      --white:       #ffffff;
+      --text-dim:    #8fa3bf;
+      --card-border: rgba(201,168,76,0.18);
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--navy);
+      color: var(--white);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      padding: 40px 60px 28px;
+      border-bottom: 1px solid var(--card-border);
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 24px;
+    }
+    .header-brand { display: flex; flex-direction: column; gap: 6px; }
+    .brand-eyebrow {
+      font-size: 10px; font-weight: 600; letter-spacing: .2em;
+      text-transform: uppercase; color: var(--gold);
+    }
+    .brand-name {
+      font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 600;
+      letter-spacing: .02em; line-height: 1;
+    }
+    .brand-sub {
+      font-size: 11px; font-weight: 300; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--text-dim); margin-top: 2px;
+    }
+    .retour {
+      font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--text-dim); text-decoration: none; white-space: nowrap;
+      border: 1px solid var(--card-border); border-radius: 4px; padding: 8px 14px;
+      transition: color .2s, border-color .2s;
+    }
+    .retour:hover { color: var(--gold-light); border-color: var(--gold); }
+
+    main { flex: 1; padding: 48px 60px 72px; max-width: 900px; width: 100%; margin: 0 auto; }
+
+    h1 {
+      font-family: 'Cormorant Garamond', serif; font-size: 38px; font-weight: 600;
+      line-height: 1.15; margin-bottom: 14px;
+    }
+    .chapeau { color: var(--text-dim); font-size: 15px; font-weight: 300; line-height: 1.7; max-width: 62ch; }
+
+    h2 {
+      font-size: 10px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase;
+      color: var(--gold); margin: 48px 0 18px;
+    }
+
+    p { line-height: 1.75; font-weight: 300; margin-bottom: 14px; max-width: 70ch; }
+    p strong, li strong { font-weight: 600; color: var(--gold-light); }
+
+    ol.etapes { list-style: none; counter-reset: pas; max-width: 70ch; }
+    ol.etapes li {
+      counter-increment: pas; position: relative; padding-left: 42px;
+      margin-bottom: 16px; line-height: 1.7; font-weight: 300;
+    }
+    ol.etapes li::before {
+      content: counter(pas); position: absolute; left: 0; top: 0;
+      width: 26px; height: 26px; border-radius: 50%;
+      border: 1px solid var(--card-border); color: var(--gold);
+      font-size: 12px; font-weight: 600; display: grid; place-items: center;
+    }
+
+    .regles {
+      border-left: 2px solid var(--gold); background: rgba(201,168,76,0.06);
+      padding: 18px 22px; border-radius: 0 4px 4px 0; max-width: 70ch;
+    }
+    .regles p:last-child { margin-bottom: 0; }
+
+    /* ── l'encart à copier ─────────────────────────────── */
+    .encart {
+      border: 1px solid var(--card-border); border-radius: 6px;
+      background: rgba(255,255,255,0.03); overflow: hidden; margin-top: 4px;
+    }
+    .encart-tete {
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      padding: 16px 20px; border-bottom: 1px solid var(--card-border);
+      background: rgba(13,31,60,0.5);
+    }
+    .encart-titre { font-size: 13px; font-weight: 500; letter-spacing: .04em; }
+    .encart-titre span { display: block; font-size: 11px; font-weight: 300; color: var(--text-dim); margin-top: 3px; }
+    button.copier {
+      font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600;
+      letter-spacing: .08em; text-transform: uppercase; cursor: pointer;
+      color: var(--navy); background: var(--gold); border: 0; border-radius: 4px;
+      padding: 11px 20px; white-space: nowrap; transition: background .2s;
+    }
+    button.copier:hover { background: var(--gold-light); }
+    button.copier.fait { background: #4ba36b; color: var(--white); }
+
+    pre {
+      margin: 0; padding: 20px; max-height: 460px; overflow: auto;
+      font-family: ui-monospace, 'Cascadia Mono', Consolas, monospace;
+      font-size: 12px; line-height: 1.55; color: #d8e2f0;
+      white-space: pre; tab-size: 2;
+    }
+    pre::-webkit-scrollbar { width: 10px; height: 10px; }
+    pre::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.3); border-radius: 5px; }
+
+    .fichiers { display: flex; flex-wrap: wrap; gap: 12px; }
+    .fichier {
+      display: inline-flex; align-items: center; gap: 10px;
+      border: 1px solid var(--card-border); border-radius: 4px; padding: 12px 16px;
+      color: var(--white); text-decoration: none; font-size: 13px; font-weight: 300;
+      transition: border-color .2s, background .2s;
+    }
+    .fichier:hover { border-color: var(--gold); background: rgba(201,168,76,0.06); }
+    .fichier svg { width: 16px; height: 16px; stroke: var(--gold); fill: none; stroke-width: 1.6; }
+
+    footer {
+      border-top: 1px solid var(--card-border); padding: 20px 60px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .footer-copy { font-size: 11px; color: var(--text-dim); letter-spacing: .06em; }
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif; font-size: 14px; font-weight: 600;
+      color: var(--gold); letter-spacing: .06em;
+    }
+
+    @media (max-width: 720px) {
+      header { padding: 28px 22px 24px; flex-direction: column; align-items: flex-start; }
+      main { padding: 36px 22px 56px; }
+      h1 { font-size: 30px; }
+      footer { padding: 20px 22px; flex-direction: column; gap: 8px; align-items: flex-start; }
+      .encart-tete { flex-direction: column; align-items: stretch; }
+      button.copier { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-brand">
+      <span class="brand-eyebrow">Portail interne</span>
+      <span class="brand-name">Circus Casino Resort Namur</span>
+      <span class="brand-sub">Direction Générale — Outils &amp; Ressources</span>
+    </div>
+    <a class="retour" href="./">← Portail</a>
+  </header>
+
+  <main>
+    <h1>Décrire une procédure<br>avec l'aide d'une IA</h1>
+    <p class="chapeau">Vous connaissez votre travail mieux que personne, mais l'écrire
+    prend du temps et on oublie toujours l'évident. Ici, c'est l'IA qui vous
+    interroge : elle pose les questions une par une, vous répondez comme vous
+    parleriez à un collègue, et elle rédige la procédure à la fin.</p>
+
+    <h2>Comment s'en servir</h2>
+    <ol class="etapes">
+      <li><strong>Ouvrez une conversation neuve</strong> dans une IA — Claude, ChatGPT,
+        Copilot. Pas une discussion déjà entamée.</li>
+      <li><strong>Copiez le texte de l'encart ci-dessous</strong> avec le bouton
+        « Copier le texte », et collez-le comme premier message.</li>
+      <li><strong>Répondez aux questions</strong> comme vous parleriez à un collègue.
+        Les phrases mal tournées, les hésitations, les « je ne sais pas » : tout se
+        rattrape.</li>
+      <li><strong>Comptez 30 à 45 minutes</strong> pour une tâche ordinaire. Vous pouvez
+        vous arrêter en route : demandez « fais-moi un point pour reprendre plus tard »
+        et gardez la réponse.</li>
+      <li><strong>À la fin, l'IA écrit la procédure</strong> — avec un sommaire si elle
+        est longue. Copiez-la et transmettez-la.</li>
+      <li><strong>Elle vous demande ensuite si d'autres tâches sont liées</strong> à
+        celle-ci et propose d'en décrire une. Vous pouvez enchaîner ou vous arrêter là.</li>
+    </ol>
+
+    <h2>Deux règles à respecter</h2>
+    <div class="regles">
+      <p><strong>Pas de noms.</strong> Parlez en fonctions : « le Duty Manager »,
+      « la réception », « le service technique ».</p>
+      <p><strong>Pas de mots de passe</strong> ni de codes d'accès, même si l'IA insiste
+      pour être précise.</p>
+    </div>
+
+    <h2>Le texte à coller</h2>
+    <div class="encart">
+      <div class="encart-tete">
+        <div class="encart-titre">Consignes pour l'IA
+          <span>251 lignes — rien à trier, tout se copie d'un bloc</span>
+        </div>
+        <button class="copier" id="copier" type="button">Copier le texte</button>
+      </div>
+      <pre id="prompt">Tu vas m'aider à écrire la procédure d'une tâche que j'accomplis régulièrement
+dans mon travail. Je travaille dans un casino-resort : jeux, hôtel, restauration,
+technique, accueil, administration.
+
+Le but n'est pas que tu rédiges vite. Le but est que tu me fasses dire tout ce
+que je sais faire sans y penser, et qui n'est écrit nulle part. Quelqu'un doit
+pouvoir reprendre ma tâche en lisant ce document, sans jamais m'avoir vu
+travailler.
+
+===========================================================================
+COMMENT TU MÈNES L'ENTRETIEN
+===========================================================================
+
+RÈGLE ABSOLUE — UNE SEULE QUESTION À LA FOIS.
+Tu poses une question, tu attends ma réponse, tu poses la suivante. Jamais deux
+questions dans le même message, jamais une liste numérotée de questions. Si tu
+as trois choses à me demander, tu les demandes en trois fois. Une question par
+message, c'est la règle la plus importante de tout ce texte.
+
+PARLE COMME UN COLLÈGUE, PAS COMME UN FORMULAIRE.
+Pas de jargon, pas de « veuillez préciser les modalités opératoires ». Tu dis
+« concrètement, tu fais quoi en premier ? ».
+
+NE DEVINE JAMAIS.
+Tu ne complètes pas ce que j'ai dit par ce qui te paraît logique, habituel ou
+probable. Si je n'ai pas dit qu'il y avait une validation, il n'y en a pas. Si
+une information manque, tu me la demandes, ou tu écris « Non précisé » dans la
+procédure finale. Une procédure incomplète se corrige ; une procédure inventée
+et vraisemblable trompera quelqu'un.
+
+NE ME DEMANDE PAS DEUX FOIS LA MÊME CHOSE.
+Avant de poser une question, vérifie que je n'y ai pas déjà répondu plus haut,
+même en passant. Si j'ai déjà répondu à moitié, reprends ce que j'ai dit et
+demande seulement ce qui manque.
+
+QUAND UNE RÉPONSE EST FLOUE, CREUSE — MAIS AUTREMENT.
+Si je réponds « ça dépend », « en général », « normalement », « parfois »,
+« selon les cas », « au cas par cas » : ne me redemande pas de préciser, ça
+produirait un deuxième flou. Demande-moi les cas concrets :
+  — « Ça dépend de quoi, exactement ? Donne-moi les deux ou trois situations
+     et ce qui les distingue. »
+  — « La dernière fois que ça ne s'est pas passé comme d'habitude, qu'est-ce
+     qui s'était passé ? »
+  — « Si un débutant fait l'inverse, qu'est-ce qui se casse ? »
+Un « ça dépend » est presque toujours une règle que je connais par cœur et que
+je n'ai jamais formulée. C'est ce qu'on cherche.
+
+QUAND JE DIS « JE NE SAIS PAS » OU « JE NE SAIS PLUS ».
+Tu n'insistes pas plus d'une fois. Tu notes le trou et tu continues.
+
+ANONYMAT.
+Je ne dois donner que des fonctions, jamais des noms de personnes. Si un nom
+m'échappe, tu me le signales tout de suite et tu le remplaces par la fonction
+dans tout ce que tu écris ensuite. N'écris jamais de mot de passe ni de code
+d'accès, même si je t'en donne un : écris « (identifiants personnels) ».
+
+===========================================================================
+LE DÉROULÉ — SUIS CES ÉTAPES DANS L'ORDRE
+===========================================================================
+
+Commence directement par l'étape 1, après une seule phrase d'introduction. Ne
+me montre pas ce plan, ne m'annonce pas les étapes à venir.
+
+--- ÉTAPE 1 : QUI TU ES, ET CE QU'ON DÉCRIT ---
+
+Demande-moi ma fonction et mon service. (Pas mon nom.)
+Puis demande-moi quelle tâche on décrit aujourd'hui, et fais-la-moi résumer en
+une phrase.
+
+--- ÉTAPE 2 : LE CADRE ---
+
+Une question à la fois, dans cet ordre :
+  a. Qu'est-ce qui déclenche cette tâche ? Une date, une demande, un événement,
+     un seuil atteint ?
+  b. À quelle fréquence, et combien de temps ça prend ?
+  c. De quoi as-tu besoin avant de commencer — documents, accès, outils,
+     informations qui viennent d'ailleurs ?
+
+--- ÉTAPE 3 : LE PLAN ---
+
+Demande-moi la liste des grandes étapes, dans l'ordre, en quelques mots
+chacune. Précise-moi de ne pas détailler maintenant : on reprendra chaque étape
+séparément juste après.
+
+Quand j'ai donné ma liste, relis-la-moi numérotée et demande-moi s'il en manque
+une. Les gens oublient presque toujours le début (ouvrir, récupérer, vérifier
+que c'est bien arrivé) et la fin (ranger, classer, prévenir, archiver).
+
+--- ÉTAPE 4 : CHAQUE ÉTAPE, UNE PAR UNE — C'EST LE CŒUR DU TRAVAIL ---
+
+C'est ici que se joue la qualité de la procédure. Ne la bâcle pas : cette étape
+doit occuper la plus grande partie de l'entretien.
+
+Pour CHAQUE étape de mon plan, dans l'ordre, tu ouvres un échange à part. Tu
+annonces « Étape 3 sur 7 : filtrer les clients » puis tu demandes :
+  « Concrètement, comment tu fais ? Qu'est-ce que tu ouvres, qu'est-ce que tu
+  regardes, qu'est-ce que tu saisis ? »
+
+Puis, selon ce que je réponds, tu relances — toujours une question à la fois,
+et seulement celles qui apportent quelque chose :
+  — « Où ça, exactement ? Dans quel écran, quel fichier, quel classeur ? »
+  — « Comment tu sais que c'est bon avant de passer à la suite ? »
+  — « Qu'est-ce qui peut coincer à ce moment-là, et tu fais quoi ? »
+  — « Il y a un ordre à respecter à l'intérieur de cette étape ? »
+  — « Quelqu'un d'autre intervient ici ? Quelle fonction, pour quoi faire ? »
+
+**Propose le découpage.** Si une étape me prend plus de quelques minutes, si je
+la décris avec « et puis », « ensuite », « après » plusieurs fois, ou si elle
+contient visiblement plusieurs opérations, dis-le-moi :
+  « Cette étape m'a l'air d'en contenir plusieurs. Tu veux qu'on la découpe ? »
+Si j'accepte, demande-moi la liste des sous-étapes, puis reprends chacune
+d'elles une par une, exactement de la même façon. On peut descendre de deux ou
+trois niveaux : c'est normal, et c'est même le but sur une tâche complexe.
+
+Avant de passer à l'étape suivante, redis-moi en une phrase ce que tu as
+compris de celle-ci, pour que je te corrige si c'est faux.
+
+--- ÉTAPE 5 : LES DÉCISIONS ET LES EXCEPTIONS ---
+
+Ce sont les deux questions les plus importantes du questionnaire, et celles
+auxquelles on répond le plus mal. Prends ton temps, insiste gentiment, et
+donne-moi des exemples pour m'aider à me souvenir.
+
+  a. « À quel moment tu dois choisir entre deux façons de faire ? Et qu'est-ce
+     qui te fait choisir l'une plutôt que l'autre ? »
+     Si je réponds qu'il n'y a jamais de choix, ne me crois pas tout de suite :
+     demande-moi ce que je regarde avant de décider comment continuer, ou ce
+     qu'un nouveau ferait de travers. Puis passe à autre chose.
+  b. « Quels sont les cas où la règle habituelle ne s'applique pas ? »
+     Relance sur : les urgences, les demandes de la direction, les pannes, les
+     jours de forte affluence, les périodes de fermeture, les clients
+     particuliers, les absences.
+  c. « Y a-t-il une étape après laquelle on ne peut plus revenir en arrière ? »
+  d. « Y a-t-il des moments où il faut faire valider, et par quelle fonction ? »
+
+--- ÉTAPE 6 : LA FIN, ET CE QUI ARRIVE SI C'EST RATÉ ---
+
+  a. « Comment tu sais que c'est fini et que c'est réussi ? »
+  b. « Que se passe-t-il si ce n'est pas fait, ou mal fait ? »
+  c. « À qui — quelle fonction — on s'adresse quand on est bloqué ? »
+
+--- ÉTAPE 7 : L'ÉPREUVE DU DÉBUTANT ---
+
+Avant d'écrire quoi que ce soit, relis tout l'entretien en te mettant à la
+place de quelqu'un qui n'a jamais fait cette tâche, et qui l'exécuterait en
+suivant uniquement ce que je t'ai dit.
+
+Cherche les endroits où il se planterait : une étape qui suppose de savoir où
+se trouve quelque chose, un mot maison que je n'ai pas expliqué, un ordre qui
+n'est pas clair, une vérification implicite, un chiffre ou un seuil jamais
+donné.
+
+Pose-moi alors tes questions restantes — **une par une**, en commençant par la
+plus importante, et pas plus de cinq au total. Présente-les comme ce qu'elles
+sont : « un débutant bloquerait ici ».
+
+--- ÉTAPE 8 : LA PROCÉDURE ---
+
+Quand j'ai répondu, écris la procédure complète en un seul message, avec
+exactement ces sections dans cet ordre :
+
+  # [Nom de la tâche]
+  Fonction : … — Service : …
+
+  ## Sommaire            (voir la règle ci-dessous : seulement si c'est long)
+  ## Objet
+  ## Déclenchement
+  ## Fréquence et durée
+  ## Prérequis
+  ## Étapes
+  ## Intervenants et validations
+  ## Décisions
+  ## Exceptions
+  ## Point de non-retour
+  ## Fin et critère de réussite
+  ## Si la tâche n'est pas faite
+  ## Tâches liées
+  ## Points restés non précisés
+
+Règles de rédaction :
+  — LE SOMMAIRE. Si la procédure dépasse une quinzaine d'étapes, ou si elle
+    tient sur plus de deux pages, commence par un sommaire ; sinon, supprime
+    cette section, elle n'apporterait rien. Le sommaire liste les titres de
+    sections ET les étapes de premier niveau, numérotées — c'est ce qui sert
+    vraiment à se repérer dans une longue procédure. Écris chaque entrée comme
+    un lien Markdown vers le titre correspondant, sur ce modèle :
+       - [Étapes](#étapes)
+         1. [Extraire la liste des clients](#1-extraire-la-liste-des-clients)
+    L'ancre s'obtient en mettant le titre en minuscules, en remplaçant les
+    espaces par des tirets et en retirant la ponctuation. Préviens-moi en une
+    phrase que ces liens fonctionnent dans les outils qui affichent le
+    Markdown, et que dans Word il vaudra mieux insérer une table des matières
+    automatique — les titres sont déjà hiérarchisés pour ça.
+  — « Étapes » est une liste numérotée qui reprend TOUTES les étapes décrites,
+    dans l'ordre, avec les sous-étapes en liste imbriquée. Tu ne fonds pas deux
+    étapes en une et tu ne résumes pas leur contenu : c'est le corps du
+    document. Donne à chaque étape de premier niveau un titre court en gras,
+    suivi du détail — sans ce titre, le sommaire n'a rien à référencer.
+  — « Décisions » est un tableau à trois colonnes :
+    Situation | Ce qu'on fait | Ce qui fait décider.
+  — « Exceptions » est un tableau à deux colonnes : Cas | Ce qu'on fait alors.
+  — « Tâches liées » liste les tâches voisines que j'ai nommées (voir l'étape 9
+    ci-dessous), en précisant pour chacune si elle a déjà été décrite ou non.
+    Supprime la section si je n'en ai nommé aucune.
+  — Chaque section que l'entretien n'a pas documentée porte « Non précisé ».
+    Tu ne la remplis pas par déduction.
+  — « Points restés non précisés » liste en clair ce qui manque encore, pour
+    que la personne qui relira sache quoi demander. Si cette liste est longue,
+    dis-le franchement plutôt que de la maquiller.
+  — Phrases courtes, présent, impératif ou infinitif. Mon vocabulaire, pas le
+    tien : si je dis « la feuille », tu écris « la feuille ».
+  — Aucun nom de personne.
+
+--- ÉTAPE 9 : LES TÂCHES VOISINES ---
+
+Une fois la procédure écrite, pose-moi cette question — une seule, et sans
+enchaîner sur autre chose :
+
+  « Est-ce que cette tâche en touche d'autres ? »
+
+Aide-moi à chercher, en me donnant ces pistes une par une si je ne vois rien
+venir :
+  — ce qui se passe juste avant, et qui rend cette tâche possible ;
+  — ce qui se passe juste après, et qui dépend de ce que je viens de faire ;
+  — ce qu'il faut faire quand cette tâche échoue, ou quand on découvre une
+    erreur après coup ;
+  — la variante du mois, du trimestre, de l'année ;
+  — ce que fait mon remplaçant quand je ne suis pas là ;
+  — les tâches dont j'ai parlé en passant pendant l'entretien, sans les
+    décrire : reprends-les-moi par leur nom, je les ai peut-être oubliées.
+
+Pour chaque tâche que je nomme, demande-moi seulement si elle est déjà écrite
+quelque part, et note-la dans « Tâches liées ».
+
+Ensuite, propose-moi d'en décrire une :
+
+  « On en décrit une maintenant ? Si oui, laquelle ? »
+
+Si j'accepte, tu recommences tout le déroulé à partir de l'étape 1 pour cette
+nouvelle tâche — sans me redemander ma fonction ni mon service, tu les connais
+— et tu produis un document séparé. **Tu ne fusionnes jamais deux tâches dans
+une seule procédure**, même si elles se suivent : chacune doit pouvoir être lue
+et exécutée seule. Tu les relies simplement par la section « Tâches liées » de
+chaque document.
+
+Si je refuse ou si je veux m'arrêter, résume-moi en trois lignes les tâches
+restées à décrire, pour que je les retrouve plus tard.
+
+===========================================================================
+
+Commence maintenant : une phrase pour te présenter, puis ta première question.</pre>
+    </div>
+
+    <h2>Ce que l'IA va vous demander</h2>
+    <p>Votre fonction et la tâche à décrire ; ce qui déclenche cette tâche, à quelle
+    fréquence, et ce qu'il vous faut avant de commencer ; puis la liste de ses grandes
+    étapes.</p>
+    <p>Elle reprend ensuite <strong>chaque étape séparément</strong> — « concrètement,
+    vous faites quoi ? » — et vous propose de découper celles qui en contiennent
+    plusieurs. C'est la partie la plus longue, et c'est elle qui fait la valeur du
+    document final.</p>
+    <p>Viennent enfin les moments où il faut choisir entre deux façons de faire, les cas
+    où la règle habituelle ne s'applique pas, et ce qui se passe si la tâche n'est pas
+    faite. Avant d'écrire, l'IA relit tout en se mettant à la place de quelqu'un qui n'a
+    jamais fait le travail, et vous pose ses dernières questions là où ce débutant se
+    tromperait.</p>
+
+    <h2>Si le résultat vous paraît creux</h2>
+    <p>C'est en général que l'entretien est allé trop vite sur les étapes. Dites-le à
+    l'IA en cours de route : « reprends l'étape 3, elle est plus compliquée que ça » ou
+    « pose-moi plus de questions, tu vas trop vite ». Elle reprendra.</p>
+
+    <h2>Les mêmes documents en Word</h2>
+    <div class="fichiers">
+      <a class="fichier" href="fichiers/1%20-%20Mode%20d'emploi%20-%20decrire%20une%20procedure%20avec%20une%20IA.docx" download><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>Mode d'emploi (.docx)</a>
+      <a class="fichier" href="fichiers/2%20-%20Texte%20a%20coller%20dans%20l'IA.docx" download><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>Texte à coller (.docx)</a>
+    </div>
+  </main>
+
+  <footer>
+    <span class="footer-copy">Usage strictement interne — CCRN &copy; 2026</span>
+    <span class="footer-logo">CCRN</span>
+  </footer>
+
+  <script>
+    // Le presse-papiers moderne n'est offert qu'aux pages sécurisées ; le repli
+    // par sélection couvre les autres cas (ouverture du fichier en local).
+    const bouton = document.getElementById('copier');
+    const bloc = document.getElementById('prompt');
+
+    bouton.addEventListener('click', async () => {
+      const texte = bloc.textContent;
+      try {
+        await navigator.clipboard.writeText(texte);
+      } catch (erreur) {
+        const zone = document.createElement('textarea');
+        zone.value = texte;
+        zone.style.position = 'fixed';
+        zone.style.opacity = '0';
+        document.body.appendChild(zone);
+        zone.select();
+        document.execCommand('copy');
+        zone.remove();
+      }
+      bouton.textContent = 'Copié ✓';
+      bouton.classList.add('fait');
+      setTimeout(() => {
+        bouton.textContent = 'Copier le texte';
+        bouton.classList.remove('fait');
+      }, 2500);
+    });
+  </script>
+</body>
+</html>
