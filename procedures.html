@@ -122,6 +122,14 @@
     pre::-webkit-scrollbar { width: 10px; height: 10px; }
     pre::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.3); border-radius: 5px; }
 
+    .exemple {
+      font-family: ui-monospace, 'Cascadia Mono', Consolas, monospace;
+      font-size: 13px; color: var(--gold-light); background: rgba(201,168,76,0.06);
+      border: 1px solid var(--card-border); border-radius: 4px;
+      padding: 12px 16px; display: inline-block; max-width: 100%; overflow-x: auto;
+    }
+    .exemple b { color: var(--white); font-weight: 600; }
+
     .fichiers { display: flex; flex-wrap: wrap; gap: 12px; }
     .fichier {
       display: inline-flex; align-items: center; gap: 10px;
@@ -182,7 +190,9 @@
         vous arrêter en route : demandez « fais-moi un point pour reprendre plus tard »
         et gardez la réponse.</li>
       <li><strong>À la fin, l'IA écrit la procédure</strong> — avec un sommaire si elle
-        est longue. Copiez-la et transmettez-la.</li>
+        est longue — <strong>et vous donne le nom du fichier</strong>. Reprenez-le tel
+        quel : c'est ce qui permet de trier et de retrouver les procédures de tout le
+        Resort.</li>
       <li><strong>Elle vous demande ensuite si d'autres tâches sont liées</strong> à
         celle-ci et propose d'en décrire une. Vous pouvez enchaîner ou vous arrêter là.</li>
     </ol>
@@ -199,7 +209,7 @@
     <div class="encart">
       <div class="encart-tete">
         <div class="encart-titre">Consignes pour l'IA
-          <span>251 lignes — rien à trier, tout se copie d'un bloc</span>
+          <span>273 lignes — rien à trier, tout se copie d'un bloc</span>
         </div>
         <button class="copier" id="copier" type="button">Copier le texte</button>
       </div>
@@ -361,8 +371,30 @@ sont : « un débutant bloquerait ici ».
 
 --- ÉTAPE 8 : LA PROCÉDURE ---
 
-Quand j'ai répondu, écris la procédure complète en un seul message, avec
-exactement ces sections dans cet ordre :
+Commence par me donner, sur une ligne seule et avant le document lui-même, le
+nom sous lequel je dois enregistrer le fichier :
+
+  Nom du fichier : procedure-CCRN-JEUX-comptage-caisse-fin-de-service-2026-09
+
+Comment tu le construis, dans cet ordre et séparé par des tirets :
+  1. « procedure-CCRN- », qui ne change jamais ;
+  2. le département, en MAJUSCULES, choisi dans cette liste et nulle part
+     ailleurs : JEUX, POKER, MACHINES, HOTEL, RESTAURATION, BAR, CUISINE,
+     ACCUEIL, HOUSEKEEPING, TECHNIQUE, SECURITE, MARKETING, FINANCE, RH,
+     ADMIN, DIRECTION. Déduis-le de mon service ; si aucun ne convient
+     vraiment, demande-moi lequel choisir — n'en invente pas ;
+  3. le nom de la tâche, en minuscules, cinq mots au maximum, sans article
+     inutile (« comptage-caisse-fin-de-service », pas
+     « le-comptage-de-la-caisse-a-la-fin-du-service ») ;
+  4. l'année et le mois de rédaction : « 2026-09 ». Si tu n'es pas certain de
+     la date du jour, demande-la-moi.
+
+Aucun accent, aucun espace, aucune ponctuation : seulement des lettres non
+accentuées, des chiffres et des tirets. Ne mets pas d'extension — elle
+s'ajoutera à l'enregistrement.
+
+Puis écris la procédure complète en un seul message, avec exactement ces
+sections dans cet ordre :
 
   # [Nom de la tâche]
   Fonction : … — Service : …
@@ -455,6 +487,14 @@ restées à décrire, pour que je les retrouve plus tard.
 
 Commence maintenant : une phrase pour te présenter, puis ta première question.</pre>
     </div>
+
+    <h2>Le nom du fichier</h2>
+    <p>Il est imposé, et l'IA vous le donne juste avant la procédure :</p>
+    <p class="exemple">procedure-CCRN-<b>JEUX</b>-comptage-caisse-fin-de-service-<b>2026-09</b></p>
+    <p>Le département vient d'une liste fermée — JEUX, POKER, MACHINES, HOTEL,
+    RESTAURATION, BAR, CUISINE, ACCUEIL, HOUSEKEEPING, TECHNIQUE, SECURITE, MARKETING,
+    FINANCE, RH, ADMIN, DIRECTION — suivi du nom de la tâche et du mois de rédaction.
+    L'extension s'ajoute à l'enregistrement.</p>
 
     <h2>Ce que l'IA va vous demander</h2>
     <p>Votre fonction et la tâche à décrire ; ce qui déclenche cette tâche, à quelle
