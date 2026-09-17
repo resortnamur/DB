@@ -194,10 +194,10 @@
       <li><strong>Comptez 30 à 45 minutes</strong> pour une tâche ordinaire. Vous pouvez
         vous arrêter en route : demandez « fais-moi un point pour reprendre plus tard »
         et gardez la réponse.</li>
-      <li><strong>À la fin, l'IA écrit la procédure</strong> — avec un sommaire si elle
-        est longue — <strong>et vous donne le nom du fichier</strong>. Reprenez-le tel
-        quel : c'est ce qui permet de trier et de retrouver les procédures de tout le
-        Resort.</li>
+      <li><strong>À la fin, l'IA livre la procédure en fichier Word</strong>, nommé
+        selon la nomenclature, avec un sommaire si elle est longue. Si l'IA que vous
+        utilisez ne sait pas fabriquer de fichier, elle doit le dire et vous donner le
+        texte à coller dans Word.</li>
       <li><strong>Elle vous demande ensuite si d'autres tâches sont liées</strong> à
         celle-ci et propose d'en décrire une. Vous pouvez enchaîner ou vous arrêter là.</li>
     </ol>
@@ -214,7 +214,7 @@
     <div class="encart">
       <div class="encart-tete">
         <div class="encart-titre">Consignes pour l'IA
-          <span>279 lignes — rien à trier, tout se copie d'un bloc</span>
+          <span>292 lignes — rien à trier, tout se copie d'un bloc</span>
         </div>
         <button class="copier" id="copier" type="button">Copier le texte</button>
       </div>
@@ -401,11 +401,25 @@ Comment tu le construis, dans cet ordre et séparé par des tirets :
 
 Aucun accent, aucun espace, aucune ponctuation : seulement des lettres non
 accentuées, des chiffres, des tirets, et le tiret bas des noms de département
-qui s'écrivent en deux mots. Ne mets pas d'extension — elle s'ajoutera à
-l'enregistrement.
+qui s'écrivent en deux mots. L'extension est « .docx ».
 
-Puis écris la procédure complète en un seul message, avec exactement ces
-sections dans cet ordre :
+COMMENT TU ME LIVRES LE DOCUMENT
+
+Je veux un vrai fichier Word (.docx), à télécharger, nommé exactement comme
+ci-dessus :
+
+  procedure-CCRN-CAISSE-comptage-caisse-fin-de-service-2026-09.docx
+
+Dedans, utilise les styles de titre de Word — Titre 1 pour le nom de la tâche,
+Titre 2 pour les sections, Titre 3 pour les étapes de premier niveau. C'est ce
+qui rend le document navigable et modifiable par la suite. Les tableaux des
+sections « Décisions » et « Exceptions » doivent être de vrais tableaux Word.
+
+**Si tu n'as pas la possibilité de créer un fichier, dis-le-moi franchement en
+une phrase** — ne fais pas comme si. Donne-moi alors la procédure en un seul
+bloc de texte à copier dans Word, et rappelle-moi le nom à donner au fichier.
+
+Le document contient exactement ces sections, dans cet ordre :
 
   # [Nom de la tâche]
   Fonction : … — Service : …
@@ -430,15 +444,14 @@ Règles de rédaction :
     tient sur plus de deux pages, commence par un sommaire ; sinon, supprime
     cette section, elle n'apporterait rien. Le sommaire liste les titres de
     sections ET les étapes de premier niveau, numérotées — c'est ce qui sert
-    vraiment à se repérer dans une longue procédure. Écris chaque entrée comme
-    un lien Markdown vers le titre correspondant, sur ce modèle :
+    vraiment à se repérer dans une longue procédure. Dans le fichier Word, ce
+    sommaire est une vraie table des matières Word, celle qui se met à jour
+    toute seule. Si tu me donnes du texte au lieu d'un fichier, écris chaque
+    entrée comme un lien vers son titre, sur ce modèle :
        - [Étapes](#étapes)
          1. [Extraire la liste des clients](#1-extraire-la-liste-des-clients)
-    L'ancre s'obtient en mettant le titre en minuscules, en remplaçant les
-    espaces par des tirets et en retirant la ponctuation. Préviens-moi en une
-    phrase que ces liens fonctionnent dans les outils qui affichent le
-    Markdown, et que dans Word il vaudra mieux insérer une table des matières
-    automatique — les titres sont déjà hiérarchisés pour ça.
+    l'ancre étant le titre en minuscules, espaces remplacés par des tirets et
+    ponctuation retirée.
   — « Étapes » est une liste numérotée qui reprend TOUTES les étapes décrites,
     dans l'ordre, avec les sous-étapes en liste imbriquée. Tu ne fonds pas deux
     étapes en une et tu ne résumes pas leur contenu : c'est le corps du
@@ -501,9 +514,9 @@ Commence maintenant : une phrase pour te présenter, puis ta première question.
 
     <h2>Le nom du fichier</h2>
     <p>Il est imposé, et l'IA vous le donne juste avant la procédure :</p>
-    <p class="exemple">procedure-CCRN-<b>CAISSE</b>-comptage-caisse-fin-de-service-<b>2026-09</b></p>
+    <p class="exemple">procedure-CCRN-<b>CAISSE</b>-comptage-caisse-fin-de-service-<b>2026-09</b>.docx</p>
     <p>Le département vient d'une liste fermée, suivi du nom de la tâche et du mois de
-    rédaction. L'extension s'ajoute à l'enregistrement.</p>
+    rédaction.</p>
     <p class="departements">CROUPIERS · ROOM_MANAGERS · CAISSE · POKER · SLOTS ·
     HOUSEKEEPING · RESTAURANT · BAR · RECEPTION_HOTEL · RECEPTION_CASINO ·
     HOTEL_AUTRES · MAINTENANCE · SECURITE · MARKETING · COMPTA · RH · DIRECTION ·
