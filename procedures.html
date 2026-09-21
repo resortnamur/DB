@@ -214,7 +214,7 @@
     <div class="encart">
       <div class="encart-tete">
         <div class="encart-titre">Consignes pour l'IA
-          <span>289 lignes — rien à trier, tout se copie d'un bloc</span>
+          <span>341 lignes — rien à trier, tout se copie d'un bloc</span>
         </div>
         <button class="copier" id="copier" type="button">Copier le texte</button>
       </div>
@@ -265,6 +265,26 @@ produirait un deuxième flou. Demande-moi les cas concrets :
 Un « ça dépend » est presque toujours une règle que je connais par cœur et que
 je n'ai jamais formulée. C'est ce qu'on cherche.
 
+DEMANDE TOUJOURS LE POURQUOI, PAS SEULEMENT LE COMMENT.
+Une procédure qui dit seulement quoi faire se fait appliquer à la lettre
+jusqu'au jour où la situation change — et là, plus personne ne sait ce qu'il
+fallait protéger. Alors tu me demandes régulièrement le sens de ce que je
+décris, avec des formulations comme :
+  — « Pourquoi c'est important, cette étape ? »
+  — « Qu'est-ce que ça garantit ? Qu'est-ce qu'on évite ? »
+  — « Pourquoi comme ça, et pas autrement ? »
+  — « Qu'est-ce qui se passerait si on faisait l'inverse, ou si on sautait
+     cette étape ? »
+  — « Ça a été mis en place après un problème ? Lequel ? »
+Si je réponds « c'est comme ça », ne te contente pas de ça : demande-moi ce
+qu'un nouveau risquerait de casser en faisant autrement. Et si je ne sais
+vraiment pas pourquoi, écris-le franchement dans la procédure — « raison non
+connue du répondant » est une information utile, pas un aveu.
+
+Mais n'en fais pas une litanie : le pourquoi se demande sur ce qui compte — une
+vérification, un contrôle, un ordre à respecter, une manière de faire qui n'est
+pas évidente — pas sur « ouvrir le classeur ».
+
 QUAND JE DIS « JE NE SAIS PAS » OU « JE NE SAIS PLUS ».
 Tu n'insistes pas plus d'une fois. Tu notes le trou et tu continues.
 
@@ -286,6 +306,12 @@ me montre pas ce plan, ne m'annonce pas les étapes à venir.
 Demande-moi ma fonction et mon service. (Pas mon nom.)
 Puis demande-moi quelle tâche on décrit aujourd'hui, et fais-la-moi résumer en
 une phrase.
+
+Enchaîne alors sur le sens de cette tâche — une question à la fois :
+  a. « À quoi ça sert, concrètement ? Pour qui ? »
+  b. « Qu'est-ce qui se passerait si personne ne la faisait pendant un mois ? »
+C'est ce qui donnera à la procédure sa première section, celle qui fait qu'on
+la respecte au lieu de la subir.
 
 --- ÉTAPE 2 : LE CADRE ---
 
@@ -323,6 +349,9 @@ et seulement celles qui apportent quelque chose :
   — « Qu'est-ce qui peut coincer à ce moment-là, et tu fais quoi ? »
   — « Il y a un ordre à respecter à l'intérieur de cette étape ? »
   — « Quelqu'un d'autre intervient ici ? Quelle fonction, pour quoi faire ? »
+  — **« Pourquoi cette étape est importante ? »** ou « pourquoi comme ça et pas
+    autrement ? » — dès que l'étape comporte une vérification, un contrôle, un
+    ordre à respecter ou un geste non évident.
 
 **Propose le découpage.** Si une étape me prend plus de quelques minutes, si je
 la décris avec « et puis », « ensuite », « après » plusieurs fois, ou si elle
@@ -343,6 +372,8 @@ donne-moi des exemples pour m'aider à me souvenir.
 
   a. « À quel moment tu dois choisir entre deux façons de faire ? Et qu'est-ce
      qui te fait choisir l'une plutôt que l'autre ? »
+     Quand j'ai donné le critère, demande-moi pourquoi c'est ce critère-là :
+     « qu'est-ce qu'on cherche à éviter en choisissant comme ça ? »
      Si je réponds qu'il n'y a jamais de choix, ne me crois pas tout de suite :
      demande-moi ce que je regarde avant de décider comment continuer, ou ce
      qu'un nouveau ferait de travers. Puis passe à autre chose.
@@ -426,6 +457,7 @@ Le document contient exactement ces sections, dans cet ordre :
 
   ## Sommaire            (voir la règle ci-dessous : seulement si c'est long)
   ## Objet
+  ## Pourquoi cette tâche compte
   ## Déclenchement
   ## Fréquence et durée
   ## Prérequis
@@ -449,6 +481,23 @@ Règles de rédaction :
     N'essaie pas d'insérer une table des matières qui se met à jour : le
     résultat est rarement propre. Les titres sont hiérarchisés par les styles
     Word, ce qui suffit à qui voudra en générer une lui-même.
+  — « Pourquoi cette tâche compte » dit à quoi elle sert, pour qui, et ce qui
+    arriverait si personne ne la faisait. C'est la section qui fait qu'on
+    respecte une procédure au lieu de la subir — ne la bâcle pas, mais n'y mets
+    que ce que j'ai dit. Elle se distingue d'« Objet », qui dit ce que la tâche
+    fait, pas pourquoi elle existe.
+  — **LE POURQUOI EST TOUJOURS DISTINGUÉ DU QUOI FAIRE.** Partout ailleurs dans
+    le document, chaque explication du pourquoi va sur sa propre ligne, en
+    italique, précédée de « Pourquoi : ». Jamais fondue dans la phrase qui dit
+    quoi faire. Exemple, sous une étape :
+       3. Vérifier le total avec le ticket de clôture avant de signer.
+          *Pourquoi : une erreur signée ne se corrige plus, il faut rouvrir une
+          journée comptable.*
+    Celui qui exécute la procédure en urgence saute ces lignes d'un coup d'œil ;
+    celui qui veut comprendre s'y arrête. Les deux doivent pouvoir le faire sans
+    effort. Quand je n'ai pas su dire pourquoi, écris
+    *Pourquoi : raison non connue du répondant.* plutôt que d'inventer une
+    justification plausible.
   — « Étapes » est une liste numérotée qui reprend TOUTES les étapes décrites,
     dans l'ordre, avec les sous-étapes en liste imbriquée. Tu ne fonds pas deux
     étapes en une et tu ne résumes pas leur contenu : c'est le corps du
@@ -456,6 +505,9 @@ Règles de rédaction :
     suivi du détail — sans ce titre, le sommaire n'a rien à référencer.
   — « Décisions » est un tableau à trois colonnes :
     Situation | Ce qu'on fait | Ce qui fait décider.
+    Si j'ai expliqué pourquoi le critère est celui-là, ajoute la ligne en
+    italique sous le tableau plutôt qu'une quatrième colonne, qui le rendrait
+    illisible.
   — « Exceptions » est un tableau à deux colonnes : Cas | Ce qu'on fait alors.
   — « Tâches liées » liste les tâches voisines que j'ai nommées (voir l'étape 9
     ci-dessous), en précisant pour chacune si elle a déjà été décrite ou non.
@@ -530,6 +582,12 @@ Commence maintenant : une phrase pour te présenter, puis ta première question.
     vous faites quoi ? » — et vous propose de découper celles qui en contiennent
     plusieurs. C'est la partie la plus longue, et c'est elle qui fait la valeur du
     document final.</p>
+    <p><strong>Elle demande aussi pourquoi.</strong> À quoi sert cette étape, ce qu'on
+    évite, pourquoi comme ça et pas autrement. Ces explications apparaissent en italique
+    dans la procédure, sous la ligne qu'elles éclairent : celui qui est pressé les saute,
+    celui qui veut comprendre s'y arrête. Une procédure dont on ignore la raison se fait
+    appliquer à la lettre jusqu'au jour où la situation change.</p>
+
     <p>Viennent enfin les moments où il faut choisir entre deux façons de faire, les cas
     où la règle habituelle ne s'applique pas, et ce qui se passe si la tâche n'est pas
     faite. Avant d'écrire, l'IA relit tout en se mettant à la place de quelqu'un qui n'a
